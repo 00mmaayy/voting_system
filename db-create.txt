@@ -1,0 +1,39 @@
+CREATE DATABASE voting_system;
+
+USE voting_system;
+
+-- Voters table (Predefined users)
+CREATE TABLE voters (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_code VARCHAR(50) UNIQUE NOT NULL,
+    passkey VARCHAR(255) NOT NULL,
+    voterName VARCHAR(255) NOT NULL
+);
+
+-- Candidates table
+CREATE TABLE candidates (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+-- Votes table (One vote per voter per candidate)
+CREATE TABLE votes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    voter_id INT NOT NULL,
+    candidate_id INT NOT NULL,
+    FOREIGN KEY (voter_id) REFERENCES voters(id),
+    FOREIGN KEY (candidate_id) REFERENCES candidates(id),
+    UNIQUE (voter_id, candidate_id) -- Prevents multiple votes per candidate
+);
+
+-- Insert predefined voters
+INSERT INTO voters (user_code, passkey) VALUES
+('VOTER001', 'PASS123'),
+('VOTER002', 'PASS456');
+
+-- Insert candidates
+INSERT INTO candidates (name) VALUES
+('Candidate A'),
+('Candidate B'),
+('Candidate C');
+
